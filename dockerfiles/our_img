@@ -16,7 +16,6 @@ RUN apt-get -y install \
 	gcc \
 	git \
 	less \
-	locales \
 	make \
 	man-db \
 	manpages \
@@ -27,8 +26,6 @@ RUN apt-get -y install \
 	unzip \
 	vim \
 	whiptail
-RUN sed -i '/^# *en_US.UTF-8 UTF-8/s/^# *//' /etc/locale.gen \
- && locale-gen en_US.UTF-8
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
 ADD https://surfdrive.surf.nl/public.php/dav/files/EEwprWM9cTF8tLw /tmp/extra_repository.tar.gz
@@ -37,6 +34,6 @@ RUN tar -x -C /home/user -f /tmp/extra_repository.tar.gz \
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
-ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" LANG="en_US.UTF-8" LC_ALL="C" TZ="Europe/Amsterdam"
+ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" LANG="C.UTF-8" TZ="Europe/Amsterdam"
 RUN echo 'root:password' | chpasswd
 CMD [ "/bin/bash" ]
